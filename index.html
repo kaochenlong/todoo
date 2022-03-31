@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="app.js" defer type="module"></script>
+    <style>
+      span {
+        display: inline-block;
+        padding: 4px;
+        background-color: gray;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <form id="form">
@@ -31,5 +39,10 @@
       <span id="result"></span>
     </form>
     <hr />
+    <form id="todoForm">
+      <input type="text" id="todo" />
+      <button>新增</button>
+      <ul id="todos"></ul>
+    </form>
   </body>
 </html>

@@ -3,6 +3,8 @@ import axios from "axios"
 // 5xruby@aa.cc
 // 123456
 
+const token = localStorage.getItem("todo-token")
+
 document.querySelector("#form").addEventListener("submit", (e) => {
   e.preventDefault()
   const email = document.querySelector("#email")
@@ -51,8 +53,6 @@ document.querySelector("#loginForm").addEventListener("submit", (e) => {
 document.querySelector("#checkForm").addEventListener("submit", (e) => {
   e.preventDefault()
 
-  const token = localStorage.getItem("todo-token")
-
   if (token) {
     axios
       .get("https://todoo.5xcamp.us/check", {
@@ -69,7 +69,6 @@ document.querySelector("#checkForm").addEventListener("submit", (e) => {
 document.querySelector("#logoutForm").addEventListener("submit", (e) => {
   e.preventDefault()
 
-  const token = localStorage.getItem("todo-token")
   axios
     .delete("https://todoo.5xcamp.us/users/sign_out", {
       headers: {
@@ -84,4 +83,61 @@ document.querySelector("#logoutForm").addEventListener("submit", (e) => {
     })
   // 1. 打 API
   // 2. 清 localStorage
+})
+
+document.querySelector("#todoForm").addEventListener("submit", (e) => {
+  e.preventDefault()
+
+  const todo = document.querySelector("#todo")
+  const todoData = {
+    todo: {
+      content: todo.value.trim(),
+    },
+  }
+  axios
+    .post("https://todoo.5xcamp.us/todos", todoData, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then(({ data }) => {
+      const li = `<li data-id="${todo.id}"><span>X</span>${data.content}</li>`
+      document.querySelector("#todos").insertAdjacentHTML("afterbegin", li)
+      e.target.reset()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+if (token) {
+  axios
+    .get("https://todoo.5xcamp.us/todos", {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then(({ data }) => {
+      const ul = document.querySelector("#todos")
+      data.todos.forEach((todo) => {
+        const li = `<li data-id="${todo.id}">
+          <span>X</span>
+          ${todo.content}
+        </li>`
+        ul.insertAdjacentHTML("beforeend", li)
+      })
+    })
+}
+
+document.querySelector("#todoForm").addEventListener("click", (e) => {
+  if (e.target.nodeName === "SPAN") {
+    const li = e.target.parentElement
+    const id = li.dataset.id
+    li.remove()
+    axios.delete(`https://todoo.5xcamp.us/todos/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+  }
 })
