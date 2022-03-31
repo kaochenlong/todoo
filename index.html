@@ -7,5 +7,29 @@
     <title>Document</title>
     <script src="app.js" defer type="module"></script>
   </head>
-  <body></body>
+  <body>
+    <form id="form">
+      Email:<input type="email" id="email" /> <br />
+      Nickname:<input type="text" id="nickname" /><br />
+      Password:<input type="password" id="password" /><br />
+      <input type="submit" value="註冊" />
+    </form>
+    <hr />
+    <form id="loginForm">
+      Email:<input type="email" id="login_email" /> <br />
+      Password:<input type="password" id="login_password" /><br />
+      <input type="submit" value="登入" />
+    </form>
+    <hr />
+    <form id="checkForm">
+      <button id="checkbtn">檢查登入</button>
+      <span id="result"></span>
+    </form>
+    <hr />
+    <form id="logoutForm">
+      <button id="logoutbtn">登出</button>
+      <span id="result"></span>
+    </form>
+    <hr />
+  </body>
 </html>
